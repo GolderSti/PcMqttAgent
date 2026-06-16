@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="PcMqttAgent.PipeTest/PcMqttAgent.PipeTest.csproj" Id="0db8bc51-89e1-4a40-a1c9-ed96b0f98b0f" />
+  <Project Path="PcMqttAgent.Service/PcMqttAgent.Service.csproj" />
+  <Project Path="PcMqttAgent.UI/PcMqttAgent.UI.csproj" Id="85921c69-cc9b-434f-a94b-a49c92c05d01" />
+</Solution>

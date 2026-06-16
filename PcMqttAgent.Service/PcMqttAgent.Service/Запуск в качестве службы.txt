@@ -1,0 +1,40 @@
+Удаляем старую версию (если есть):
+
+sc.exe delete PcMqttAgentService
+
+Создаем новую:
+
+sc.exe create PcMqttAgentService ^
+binPath= "C:\Program Files\PcMqttAgent\PcMqttAgent.Service.exe" ^
+start= auto
+
+Важно:
+
+После = нужен пробел.
+
+Это старая особенность sc.exe.
+
+Шаг 7. Запускаем
+sc.exe start PcMqttAgentService
+
+или
+
+Start-Service PcMqttAgentService
+Проверяем
+Get-Service PcMqttAgentService
+
+Должно показать:
+
+Status : Running
+Где смотреть ошибки
+
+Если служба не запускается:
+
+eventvwr.msc
+
+Потом:
+
+Windows Logs
+ └ Application
+
+Там будут ошибки запуска.
