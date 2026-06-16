@@ -6,10 +6,11 @@
     <!-- Оставим, но сделаем окно скрытым -->
     <Application.Resources>
         <!-- Иконка в трее -->
-        <tb:TaskbarIcon x:Key="TrayIcon"
-                        IconSource="/Resources/app.ico" 
+        <tb:TaskbarIcon 
+            x:Key="TrayIcon"             
+            IconSource="/Resources/app.ico" 
             ToolTipText="PcMqttAgent: Подключение..."
-                        DoubleClickCommand="{Binding ShowWindowCommand}">
+            DoubleClickCommand="{Binding ShowWindowCommand}">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Настройки" Click="ShowStatus_Click"/>

@@ -48,6 +48,7 @@ public partial class App : Application
 
         // 3. Создаем главное окно, но НЕ показываем его (Show() вызовется только по запросу)
         _mainWindow = new MainWindow();
+        _mainWindow?.Show();
     }
 
     private void OnStatusReceived(StatusPayload obj)
@@ -122,8 +123,7 @@ public partial class App : Application
 
     private void ShowStatus_Click(object sender, RoutedEventArgs e)
     {
-        _mainWindow?.Show();
-        _mainWindow?.Activate();
+        //
     }
 
     private void Exit_Click(object sender, RoutedEventArgs e)
