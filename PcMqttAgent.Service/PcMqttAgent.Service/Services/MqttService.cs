@@ -306,7 +306,7 @@ public class MqttService : BackgroundService
                 catch (Exception ex)
                 {
                     Log.Error(ex, "Ошибка парсинга ShutdownResponse");
-                    tcs.TrySetResult(false);
+                    tcs.TrySetResult(true);
                 }
             }
         }
@@ -330,7 +330,7 @@ public class MqttService : BackgroundService
 
             // Ждем ответа или таймаута (время таймаута + 5 секунд на обработку)
             using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(_settings.ShutdownWarningSeconds + 5));
-            bool confirmed = false;
+            bool confirmed = true;
 
             try
             {
@@ -338,7 +338,7 @@ public class MqttService : BackgroundService
             }
             catch (TaskCanceledException)
             {
-                Log.Warning("Таймаут ожидания подтверждения от UI. Действие отменено.");
+                Log.Warning("Таймаут ожидания подтверждения от UI. Выполняем действие.");
             }
             finally
             {
@@ -348,12 +348,12 @@ public class MqttService : BackgroundService
 
             if (confirmed)
             {
-                Log.Information("Пользователь подтвердил действие. Выполнение...");
+                Log.Information("Пользователь подтвердил действие или таймаут. Выполнение...");
                 ExecuteSystemCommand(shutdownArgs);
             }
             else
             {
-                Log.Information("Пользователь отменил действие или таймаут.");
+                Log.Information("Пользователь отменил действие.");
             }
         }
         catch (Exception ex)
