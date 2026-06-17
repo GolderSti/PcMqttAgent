@@ -1,10 +1,13 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
+using PcMqttAgent.Models;
 using PcMqttAgent.Models.Pipe;
 using PcMqttAgent.Services;
 using System;
 using System.Drawing; 
 using System.Windows;
 using System.Windows.Resources; 
+using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
 
 namespace PcMqttAgent.UI;
 
@@ -13,6 +16,7 @@ public partial class App : Application
     private PipeClient _pipeClient = null!;
     private TaskbarIcon _trayIcon = null!;
     private MainWindow? _mainWindow;
+    public static AppSettings Settings { get; private set; } = new();
 
     protected override async void OnStartup(StartupEventArgs e)
     {
@@ -44,6 +48,21 @@ public partial class App : Application
                 "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             Current.Shutdown();
             return;
+        }
+        try
+        {
+            // 1. Загрузка настроек
+            var config = new ConfigurationBuilder()
+                .SetBasePath("C:\\ProgramData\\PcMqttAgent\\")
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            var loadedSettings = config.Get<AppSettings>();
+            if (loadedSettings != null) Settings = loadedSettings;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Ошибка загрузки настроек из файла: {ex}");
         }
 
         // 3. Создаем главное окно, но НЕ показываем его (Show() вызовется только по запросу)
@@ -121,9 +140,10 @@ public partial class App : Application
         });
     }
 
-    private void ShowStatus_Click(object sender, RoutedEventArgs e)
+    private void Settings_Click(object sender, RoutedEventArgs e)
     {
-        //
+        var settingsWindow = new SettingsWindow();
+        settingsWindow.ShowDialog();
     }
 
     private void Exit_Click(object sender, RoutedEventArgs e)
@@ -137,5 +157,13 @@ public partial class App : Application
         await _pipeClient.DisconnectAsync();
         _pipeClient.Dispose();
         base.OnExit(e);
+    }
+
+    public async Task PipeGetStatus()
+    {
+        if (_pipeClient is not null) 
+        {
+            await _pipeClient.SendAsync(new PipeMessage { Type = PipeMessageType.GetStatus });
+        }    
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -21,9 +22,21 @@ namespace PcMqttAgent.UI
             InitializeComponent();
         }
 
-        private void BtnGetStatus_Click(object sender, RoutedEventArgs e)
+        private async void BtnGetStatus_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                // Получаем экземпляр нашего класса App
+                var app = (App)Application.Current;
+                
+                // Вызываем метод и ждем его выполнения
+                await app.PipeGetStatus();
+            }
+            catch (Exception ex)
+            {
+                // Обработка ошибок отправки (например, обрыв связи)
+                MessageBox.Show($"Ошибка запроса статуса: {ex.Message}");
+            }
         }
     }
 }
