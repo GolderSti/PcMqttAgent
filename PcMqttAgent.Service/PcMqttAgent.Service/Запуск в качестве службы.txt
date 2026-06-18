@@ -5,7 +5,7 @@ sc.exe delete PcMqttAgentService
 Создаем новую:
 
 sc.exe create PcMqttAgentService ^
-binPath= "C:\Program Files\PcMqttAgent\PcMqttAgent.Service.exe" ^
+binPath= "C:\Program Files\PcMqttAgent\Service\PcMqttAgent.Service.exe" ^
 start= auto
 
 Важно:
