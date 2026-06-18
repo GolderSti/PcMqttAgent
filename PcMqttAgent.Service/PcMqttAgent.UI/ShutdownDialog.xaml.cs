@@ -8,7 +8,7 @@ public partial class ShutdownDialog : Window
 {
     private int _secondsLeft;
     private DispatcherTimer _timer;
-    private bool _isConfirmed = false;
+    private bool _isConfirmed;
 
     public ShutdownDialog(string action, int timeoutSeconds)
     {

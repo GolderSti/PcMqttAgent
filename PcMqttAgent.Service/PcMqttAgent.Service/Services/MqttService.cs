@@ -540,7 +540,7 @@ public class MqttService : BackgroundService
 
             // ВАЖНО: Используем AppContext.BaseDirectory, а не AppDomain.CurrentDomain.BaseDirectory
             // Для Windows Service это гарантирует правильный путь к папке с exe-файлом службы
-            string configPath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
+            string configPath = Path.Combine("C:\\ProgramData\\PcMqttAgent\\", "appsettings.json");
             File.WriteAllText(configPath, json);
         }
         catch (Exception ex)
